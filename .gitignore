@@ -42,6 +42,11 @@ java/target/
 .gradle/
 build/
 
+# ---- local config / claude ----
+config/local.yaml
+.claude/settings.local.json
+experiments/runs/
+
 # ---- editors / OS ----
 .vscode/*
 !.vscode/extensions.json

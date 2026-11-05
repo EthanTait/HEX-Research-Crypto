@@ -4,6 +4,33 @@ Newest entries at the top. One entry per decision: what was decided, why, and wh
 
 ---
 
+### 2026-11-05: Milestone 1 due Mon Nov 9; plan in `reports/milestones/milestone-1/PLAN.md`
+- **Decided:** one step per VS Code session; open choices are numbered D1-D11 in the plan and logged here when Ethan decides them.
+
+### 2026-11-05: Target is the BTC-hedged spread, not the raw return
+- **Decided:** forecast the follower's forward move net of beta * BTC, vol-scaled, h = 5 min primary (1 and 15 reported). Followers SOL, XRP, DOGE; leaders BTC, ETH. Definitions in `THESIS.md`.
+- **Why (Ethan):** the signal has to be interpretable and pitchable to a desk. Raw short-horizon returns are close to unpredictable; a spread or difference forecast with an execution strategy on top is a view a desk can take. If it carries over to raw returns, that's a bonus.
+- **Ruled out for now:** cross-venue basis and perp-spot basis (no data yet; revisit once Hank's tick capture is described).
+
+### 2026-11-05: TWAP execution metric and simulated parent orders retired
+- **Decided:** reverses the 2026-10-01 execution-desk pitch. No synthetic parent orders.
+- **Why (Ethan):** simulated orders carry a lot of bias and assume a distribution of order activity. Feature distributions matter more.
+- **Removed:** `ideas/02-execution-timing-signal.md`, `ideas/README.md`, `ideas/_TEMPLATE.md`, `docs/RESEARCH_PLAN_TEMPLATE.md` (all in git history). `ideas/01` became `docs/THESIS.md`.
+
+### 2026-11-05: Metric and final plots
+- **Decided:** fit and run the improvement loop on **median daily rank IC**; judge on **cumulative net PnL** of the hedged position (costs on both legs, staged as in Lecture 9).
+- **Final plots:** cumulative OOS net PnL over time vs a baseline is required; feature distributions alongside.
+
+### 2026-11-05: Stack laid out in full now; q is Ethan's
+- **Decided:** q -> Python -> Java framework stays, even without tick data yet. Ethan writes the q layer himself, so Claude proposes and reviews q but doesn't write it unless asked. Hank's tick capture (3-4 weeks so far) gets an empty slot in `DATA.md` and the q schema, wired up later.
+- **Also:** all project code lives in this repo. Homework notebooks aren't imported; their lessons are rebuilt here (gotchas carried into `CLAUDE.md`).
+
+### 2026-11-05: Group and roles
+- **Decided:** group name HEX Research. Ethan Tait CRO/COO, Hank Rugg CTO/COO (course group-formation sheet).
+
+### 2026-11-05: Claude Code setup for the research loop
+- **Decided:** `CLAUDE.md` + project subagents (`.claude/agents/`) + skills (`.claude/skills/`). Every run appends to `experiments/registry.jsonl`; lessons go in `research/LEARNINGS.md`. Both are read at the start of each session, which is how later sessions learn from earlier runs.
+
 ### 2026-10-01: Live signal computed in q, in the same pass as data processing
 - **Decided:** in production, data is received and processed in q and the signal is computed in that same pass, then pushed to the Java engine.
 - **Why (Ethan, from a q → Python → Java desk stack):** the long part is market-data latency; computing the signal is quick by comparison. We measure q compute time per update to back this up.
@@ -38,9 +65,7 @@ Newest entries at the top. One entry per decision: what was decided, why, and wh
 
 ## Open questions
 
-- [ ] Exact tick-data request: date range; is HYPE available?
-- [ ] Common event grid: fixed interval (100ms / 250ms / 1s) vs refresh-time
-- [ ] Parent-order grid (sizes, horizons, slice cadence), flagged as assumptions
-- [ ] Which benchmark leads the final slide
+- [ ] What Hank's tick capture contains: venues, symbols, tables, date range, format
+- [ ] Milestone 1 decisions D1-D11 (`reports/milestones/milestone-1/PLAN.md`)
+- [ ] Common event grid for tick data: fixed interval (100ms / 250ms / 1s) vs refresh-time
 - [ ] Maven vs Gradle for `java/`
-- [ ] CRO / CTO / COO role split, group name

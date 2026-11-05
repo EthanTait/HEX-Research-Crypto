@@ -1,9 +1,13 @@
 # Architecture: q → Python → Java
 
-The stack is fixed; see `DECISIONS.md` (2026-09-24). This file is the contract between the layers, so each of us can work on one layer without breaking the others. What goes *through* the pipeline depends on the idea we pick.
+The stack is fixed; see `DECISIONS.md` (2026-09-24, 2026-11-05). This file is the contract between the layers, so each of us can work on one layer without breaking the others.
+
+**Ownership:** Ethan writes the q layer. Hank wires his tick capture into it. Python and Java are built step by step in VS Code with Claude, following `reports/milestones/milestone-1/PLAN.md`.
+
+**Two data sources, one contract:** the course 1-min archive (now) and Hank's tick capture (slot, later). Research code calls the same query functions whichever source sits behind them.
 
 ```
- raw ticks (.csv.gz from course)
+ raw files: course 1-min .csv.gz (now) | Hank's ticks (later)
         │  named pipe + .Q.fps (streaming load, never fully in memory)
         ▼
 ┌───────────────────────────────┐
@@ -40,7 +44,20 @@ The stack is fixed; see `DECISIONS.md` (2026-09-24). This file is the contract b
   - `flow[syms; window]`: signed volume / imbalance via `wj`
 - Store heavy derived tables (grids, feature panels) back into the HDB as their own partitioned tables so Python loads them instead of recomputing.
 
-**Core schemas** (from the Lecture 3/4 data spec; adjust once the actual tick files arrive)
+**1-min bar tables (Milestone 1)**, one per course dataset, partitioned by date, `p#` on `sym`. Column lists come from `data/DataDescription.docx`; keep the course names so Python code reads the same either way.
+
+```q
+/ sketch only; Ethan writes the real schema in q/schema/
+l1bar:   ([] date; sym; ts_end:`timestamp; bin_id; carryover; close_mid; close_bid; close_ask; ...)
+tradebar:([] date; sym; ts_end:`timestamp; bin_id; carryover; buy_volume; sell_volume; vwap; ...)
+bookbar: ([] date; sym; ts_end:`timestamp; bin_id; carryover; best_bid; best_ask; ...)
+```
+
+Query functions Python needs for Milestone 1 (names are a proposal; Ethan decides):
+- `bars[tbl; syms; d0; d1; cols]`: one table for a symbol list and date range, on the common 1-min grid
+- `coverage[tbl; d0; d1]`: rows, missing days, carryover counts per sym (the data-chapter table)
+
+**Tick schemas (slot for Hank's capture; adjust once the actual files are described)**
 
 ```q
 trade:([] date:`date$(); sym:`symbol$(); time:`timestamp$(); seq:`long$();
@@ -80,7 +97,11 @@ python/
 └── notebooks/       # exploration only; outputs stripped before commit
 ```
 
+Every run that produces a metric appends one line to `experiments/registry.jsonl` (see `experiments/README.md`), so results stay traceable to a config and a git hash.
+
 ## Layer 3: Java (execution)
+
+**Role for this thesis:** replay of the hedged spread strategy with state: two legs, position limits, one-bar (later sub-second) decision delay, fees and spread per leg. It is not needed for Milestone 1; the first Java test is reproducing the vectorized Python PnL at zero delay.
 
 **When it earns its place**: vectorized mid-to-mid PnL (the Lecture 4 method) runs in Python/q. Java takes over once a strategy needs **sequential state**, which is awkward in vectorized q and slow in Python loops:
 - decision latency and order latency (signal at t, order arrives at t + L)

@@ -1,6 +1,6 @@
 # Contributing
 
-Two-person repo, but **public**, so some rules are hard constraints rather than style.
+Two-person repo, but **public**, so some rules are hard constraints rather than style. Claude Code sessions follow the same rules (see `CLAUDE.md`).
 
 ## Never commit
 
@@ -50,6 +50,8 @@ One logical change per commit. If the message needs "and", it is probably two co
 | Stateful strategy simulation, latency, order lifecycle | `java/` |
 | Parameters (windows, horizons, symbols, dates) | `config/*.yaml`, never hardcoded |
 | Decisions and why | `docs/DECISIONS.md` |
+| One line per run with a metric | `experiments/registry.jsonl` (appended by code, never edited by hand) |
+| What a run taught us | `research/LEARNINGS.md` |
 
 ## Line endings
 

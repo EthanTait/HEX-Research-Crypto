@@ -4,11 +4,11 @@ Course deliverables and the figures they use.
 
 ```
 reports/
-├── research-plan/   # individual plans (due Oct 7)
-├── milestones/      # group milestone 1 and 2
-├── paper/           # final research paper
-├── slides/          # presentation
-└── figures/         # only figures actually used in a deliverable, each produced by a python/scripts/ entry point
+├── research-plan/          # individual plans as submitted (Oct 7)
+├── milestones/
+│   └── milestone-1/        # INSTRUCTIONS.md (course sheet), PLAN.md, figures/
+├── paper/                  # final research paper (later)
+└── slides/                 # presentation (later)
 ```
 
-Large binaries (pptx/pdf) are fine here in moderation. Keep the working drafts elsewhere and commit the submitted versions.
+Every figure in a deliverable is produced by a script in `python/scripts/`, with the config and git hash recorded. Large binaries (pptx/pdf) are fine in moderation; commit the submitted versions only.

@@ -14,7 +14,7 @@ wsl --install -d Ubuntu     # admin PowerShell, then reboot
 
 ```bash
 mkdir -p ~/code && cd ~/code
-git clone https://github.com/<owner>/notset-algo-trading-project.git
+git clone https://github.com/EthanTait/notset-algo-trading-project.git
 ```
 
 ## 2. kdb+/q: KDB-X Community Edition (free)
@@ -61,7 +61,24 @@ Open the repo from WSL (`code .` inside `~/code/notset-algo-trading-project`), t
 - **Python** + **Jupyter** (Microsoft)
 - **Extension Pack for Java** (Microsoft)
 
-## 6. Git identity (inside WSL)
+## 6. Course data
+
+The 1-min archive (`binance_fordham.tar`, about 2.3 GB) lives outside the repo. Copy it into the WSL filesystem rather than reading it from OneDrive:
+
+```bash
+mkdir -p data/raw/fordham
+tar -xf /path/to/binance_fordham.tar -C data/raw/fordham     # top level of the tar is binance/
+```
+
+Then write `config/local.yaml` (gitignored) with `paths.raw_fordham: data/raw/fordham`.
+
+## 7. Claude Code (VS Code extension)
+
+- Install the Claude Code extension and open the repo folder. `CLAUDE.md` loads automatically, together with the subagents in `.claude/agents/` and the skills in `.claude/skills/`.
+- Start a session with `/m1-step` to pick up the next step of the Milestone 1 plan, or `/iterate` once the improvement loop is running.
+- Personal permission tweaks go in `.claude/settings.local.json` (gitignored).
+
+## 8. Git identity (inside WSL)
 
 ```bash
 git config --global user.name  "Your Name"
@@ -76,3 +93,5 @@ sudo apt install -y gh && gh auth login        # simplest way to authenticate pu
 - [ ] `python -c "import pykx as kx; print(kx.q('til 3'))"` works
 - [ ] `java -version` shows 21, `mvn -version` works
 - [ ] repo cloned under `~/code`, not `/mnt/c`
+- [ ] `config/local.yaml` points at the course archive
+- [ ] Claude Code opens the repo and lists the project agents (`/agents`)

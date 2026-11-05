@@ -1,21 +1,21 @@
-# java/ (execution layer)
+# java/ (strategy replay layer)
 
-Event-driven replay and execution simulation. Created as a Maven project once the first strategy needs state, latency or an order lifecycle (see [`../docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md)).
+Event-driven replay of the hedged spread strategy: two legs, position state, decision delay, fees and spread per leg. Not needed for Milestone 1; created as a Maven project when the strategy needs state that is awkward to vectorize (see [`../docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md)).
 
 ```
 java/
 ├── pom.xml
 └── src/
     ├── main/java/notset/
-    │   ├── feed/       # EventSource: merged, time-ordered events from q (javakdb) or exported files
-    │   ├── engine/     # single-threaded event loop, simulated clock, latency model
-    │   ├── exec/       # order + fill models, fees
-    │   ├── strategy/   # Strategy interface: onQuote / onTrade / onTimer -> orders
-    │   └── report/     # fills + positions written back to q
+    │   ├── feed/       # EventSource: time-ordered bars (now) or ticks (later) from q (javakdb) or exported files
+    │   ├── engine/     # single-threaded event loop, simulated clock, delay model
+    │   ├── exec/       # fill model, fees, spread per leg
+    │   ├── strategy/   # Strategy interface: onBar / onQuote / onTrade -> orders
+    │   └── report/     # fills + positions written back for evaluation in Python
     └── test/java/notset/
 ```
 
 Rules
 - Deterministic: single-threaded, and any randomness uses a seeded RNG.
 - Parameters come from the same `config/*.yaml` that Python uses.
-- A strategy's results must reproduce the vectorized Python result when latency = 0 and fills are at mid. That's the first test.
+- First test: reproduce the vectorized Python PnL at zero delay and mid fills.

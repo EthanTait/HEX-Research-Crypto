@@ -45,22 +45,23 @@ For probability or classification forecasts, check **calibration**: predicted ve
 
 A result that dies at step 2 or 3 is still a result: "the effect is statistically real but not harvestable at retail fees and latency" is a legitimate conclusion.
 
-## 5b. Execution improvement (idea 02)
+## 5b. Hedged spread specifics (2026-11-05)
 
-- Unit: one simulated parent order, with randomized start time and **randomized side**.
-- Metric: `improvement = IS_baseline - IS_signal` in bps, against arrival price (primary), TWAP schedule and interval VWAP.
-- Aggregate **per day first** (median per day), then report the distribution across days, with day-block bootstrap CIs. Parent orders on the same day share market moves.
-- Fees are paid in both arms, so they mostly cancel in the difference; report gross and net anyway.
-- Sweep the latency L and report where the improvement disappears.
+- Position: long follower j, short beta_j * BTC notional (or the reverse), size proportional to the forecast, held for h bars (Lecture 5 backtest).
+- Costs on **both legs**: taker fee (about 5 bps per side) plus half the spread on each leg at entry and exit. State the fee tier.
+- Stages, each one a line on the cumulative PnL chart: mid-to-mid -> fees + spread -> one-bar delay -> funding (later).
+- Long and short legs reported separately (Lecture 9).
+- Sharpe annualized with 525,600 minutes per year (crypto trades 24/7).
 
-## 6. Pre-registration table (copy into each idea once chosen)
+## 6. Pre-registration (filled 2026-11-05, before any OOS result)
 
 | Item | Value |
 |---|---|
-| Target variable and horizon(s) | |
-| Primary metric | |
-| Benchmark it must beat | |
-| Significance test | |
-| Robustness checks that must pass | |
-| What counts as a null result | |
-| Holdout period | |
+| Target variable and horizon(s) | y_j(t,h): forward BTC-hedged spread of follower j, vol-scaled (`THESIS.md`). h = 5 primary; 1, 15 reported |
+| Primary metric | Median daily rank IC (Spearman) on the 2024 walk-forward |
+| Judging metric | Cumulative net PnL of the hedged position, costs on both legs |
+| Benchmark it must beat | (1) best standalone feature (chosen on 2023), (2) static "BTC leads" forecast, (3) zero |
+| Significance test | Day-block bootstrap CI on median daily IC; Diebold-Mariano vs the static baseline |
+| Robustness checks that must pass | Drop top 5 vol days; per-follower results; weekday vs weekend; circular time-shift placebo |
+| What counts as a null result | Lead concentrated at lag 0, or combined forecast not better than the best feature beyond 1 bootstrap s.e. |
+| Holdout period | 2025-01-01 to 2025-11-30, opened once, logged in `experiments/registry.jsonl` |
