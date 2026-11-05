@@ -40,14 +40,13 @@ Status keys: `[ ]` not started, `[~]` in progress, `[x]` done.
 ## Step 0: logistics (Thu Nov 5)
 
 - [ ] Hank's research-plan write-up into `reports/research-plan/hank.md`
-- [ ] Who owns which step (default: Ethan CRO = steps 3-6, Hank CTO = step 2 data + tick slot, both on step 1 and 7)
-- [ ] Environment checklist in `docs/SETUP.md` passes on both machines
+- [~] Environment checklist in `docs/SETUP.md` passes on both machines (2026-11-05: full stack chosen, see `DECISIONS.md`; in progress on Ethan's machine)
 
 ## Step 1: combined write-up (Thu-Fri)
 
 Merge `reports/research-plan/ethan.md` and `hank.md` into one document and work through the feedback checklist above.
 
-- **D1.** Format of the combined doc: Word (as for the homeworks) or markdown in `reports/milestones/milestone-1/`.
+- **D1. Decided 2026-11-05:** markdown in `reports/milestones/milestone-1/`, figures linked from `figures/`, exported with pandoc at submission.
 - **D2.** What carries over from Hank's plan into the thesis, and what gets dropped. The old execution-timing / TWAP framing is retired (see `DECISIONS.md`); the use-case section is rewritten around the hedged spread.
 
 ## Step 2: data chapter (Thu-Fri)
@@ -58,8 +57,8 @@ Update `docs/DATA.md` from the actual files, not from memory.
 - [ ] Coverage table per symbol and dataset: rows, missing days, carryover counts by year
 - [ ] Tick-data slot: what Hank's capture contains (venues, symbols, tables, dates, format). Left blank until known
 - **D3.** Universe: is ETH a leader only, or also a follower? Is a volume-weighted index used as a second hedge alongside BTC?
-- **D4.** Python access while the q loader is being written: wait for PyKX on the HDB, or a temporary CSV reader in `notset.io` behind the same function signature so research isn't blocked.
-- **D5.** Request outside data now (funding rates, a second venue)? Lecture 9: "check availability of outside data now."
+- **D4.** Python access while the q loader is being written: wait for PyKX on the HDB, or a temporary CSV reader in `notset.io` behind the same function signature so research isn't blocked. _Open until q is installed (environment decision, 2026-11-05)._
+- **D5. Decided 2026-11-05:** no outside data before Milestone 1. Funding rates and a second venue revisited afterwards.
 
 ## Step 3: features and quality survey (Fri-Sat)
 

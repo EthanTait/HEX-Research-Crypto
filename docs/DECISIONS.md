@@ -4,6 +4,21 @@ Newest entries at the top. One entry per decision: what was decided, why, and wh
 
 ---
 
+### 2026-11-05: Milestone 1 runs on the full stack; set it up this week
+- **Decided:** follow `docs/SETUP.md` end to end (WSL2, KDB-X, Miniforge + PyKX, Java) before step 2, rather than running Milestone 1 on Windows Python with q deferred.
+- **Why (Ethan):** Milestone 1 should show the whole q -> Python -> Java pipeline runs end to end. That is the credibility check before tick data gets wired into the same slots.
+- **Ruled out:** a Windows-only shortcut for the milestone. D4 (Python access while the q loader is written) stays open until q is installed and is settled at step 2.
+
+### 2026-11-05: D1 combined document is markdown in `reports/milestones/milestone-1/`, exported at submission
+- **Decided:** the milestone document is markdown in the repo; figures are linked from `reports/milestones/milestone-1/figures/`, each produced by a script in `python/scripts/`. Export to Word or PDF with pandoc on submission day.
+- **Why:** the document can't drift from the code; a rerun of a script updates the figure in place.
+- **Ruled out:** a Word document as for the homeworks (hand-pasted figures, binary outside git diffs).
+
+### 2026-11-05: D5 no outside data requested before Milestone 1
+- **Decided:** nothing requested from the course this week.
+- **Why (Ethan):** keep the four days on the core result. Funding rates (needed for the last backtest stage in `EVALUATION.md`) and a second venue are revisited after Milestone 1, once Hank's capture is described.
+- **Ruled out for now:** funding rates, open interest, Hyperliquid, Bybit/OKX.
+
 ### 2026-11-05: Milestone 1 due Mon Nov 9; plan in `reports/milestones/milestone-1/PLAN.md`
 - **Decided:** one step per VS Code session; open choices are numbered D1-D11 in the plan and logged here when Ethan decides them.
 
