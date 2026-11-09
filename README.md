@@ -1,4 +1,4 @@
-# notset-algo-trading-project
+# HEX-Research-Crypto
 
 **HEX Research** (Ethan Tait, Hank Rugg): group project for *Blockchain, Cryptocurrency and Algorithmic Trading*, Fordham MSQF, Fall 2026.
 
@@ -20,7 +20,7 @@ Forecast the next few minutes of an alt perp's move **net of BTC** (its BTC-hedg
 ## Repository layout
 
 ```
-notset-algo-trading-project/
+HEX-Research-Crypto/
 ├── CLAUDE.md            <- context and rules for Claude Code sessions
 ├── .claude/             <- project subagents and skills (see CLAUDE.md)
 ├── docs/

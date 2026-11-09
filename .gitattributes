@@ -12,3 +12,6 @@
 *.pdf   binary
 *.pptx  binary
 *.docx  binary
+
+# append-only run log: both authors add lines, never edit, so merges take both sides
+experiments/registry.jsonl merge=union

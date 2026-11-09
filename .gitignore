@@ -55,3 +55,9 @@ experiments/runs/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# ---- latex build products (keep .tex and .pdf) ----
+*.aux
+*.fdb_latexmk
+*.fls
+*.synctex.gz

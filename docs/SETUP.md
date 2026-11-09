@@ -14,7 +14,7 @@ wsl --install -d Ubuntu     # admin PowerShell, then reboot
 
 ```bash
 mkdir -p ~/code && cd ~/code
-git clone https://github.com/EthanTait/notset-algo-trading-project.git
+git clone https://github.com/EthanTait/HEX-Research-Crypto.git
 ```
 
 ## 2. kdb+/q: KDB-X Community Edition (free)
@@ -55,7 +55,7 @@ The q ↔ Java interface is KX's `javakdb` client (github.com/KxSystems/javakdb)
 
 ## 5. VS Code
 
-Open the repo from WSL (`code .` inside `~/code/notset-algo-trading-project`), then install:
+Open the repo from WSL (`code .` inside `~/code/HEX-Research-Crypto`), then install:
 - **WSL** (Microsoft)
 - **kdb** (KX): connect to a running q process and run `.q` files or selections
 - **Python** + **Jupyter** (Microsoft)
@@ -86,6 +86,13 @@ git config --global user.email "you@fordham.edu"
 git config --global core.autocrlf input
 sudo apt install -y gh && gh auth login        # simplest way to authenticate pushes
 ```
+
+## WSL stability (learned the hard way, 2026-11-06/07)
+
+Four WSL hangs in two days (the VM stops answering, `wsl --shutdown` itself hangs, only `wsl --shutdown --force` recovers it). Two things correlate with them:
+
+- **Large writes from inside WSL to `/mnt/c/...`** (the Windows-mounted side, through the 9p bridge and Defender's real-time scan). Keep every output on the Linux side (`output/`, `data/`), and read Linux files from Windows through `\\wsl.localhost\...` instead.
+- **Host memory starvation.** With Chrome and VS Code open, Windows had under 1 GB free while the VM could take 50% of RAM. `C:\Users\<you>\.wslconfig` now caps it: `[wsl2] memory=4GB, swap=0, processors=4`. Our biggest job uses about 2.3 GB; run heavy Python one process at a time.
 
 ## Checklist
 

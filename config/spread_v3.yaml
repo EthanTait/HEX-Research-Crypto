@@ -1,0 +1,21 @@
+# loop iteration 3: v1 + no-trade band: a position only when |forecast| >= 1.5 trailing sd.
+# an execution rule, not a forecast change: ic is unchanged by construction, judged on net pnl
+name: spread_v3
+leaders: [BTCUSDT, ETHUSDT]
+followers: [SOLUSDT, XRPUSDT, DOGEUSDT]
+hedge: btc
+dates:
+  select: {start: 2023-01-01, end: 2023-12-31}
+  walk_forward: {start: 2024-01-01, end: 2024-12-31}
+  holdout: {start: 2025-01-01, end: 2025-11-30}
+target: {horizon_bars: 5, report_horizons: [1, 5, 15], vol_scale: true}
+beta: {window_days: 7}
+walk_forward: {window_days: 60, test_days: 7, refit_hours: 168, purge_bars: 5}
+features: [btc_ema3_15, gap15, gap60, own_ema3, tib, tib_diff, btc_vol]
+tails: {method: trailing_z, clip: 5}
+model: {type: ridge, alpha: 1.0, target_clip: 5.0}
+costs: {taker_bps: 5.0, half_spread: observed, legs: 2, trade_band: 1.5}
+baselines:
+  static_btc_leads: neg_gap5
+  best_feature: gap15
+  best_feature_sign: -1
