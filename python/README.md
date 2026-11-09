@@ -9,7 +9,7 @@ python/
 │   └── eval/      # EVALUATION.md protocol: walk-forward, daily rank IC, bootstrap, DM, PnL stages
 ├── scripts/       # reproducible entry points, one per result or figure
 ├── tests/         # look-ahead and alignment asserts
-└── notebooks/     # exploration only; clear outputs before committing
+└── notebooks/     # walkthrough.ipynb (the pipeline step by step, made by scripts/make_walkthrough.py); outputs stripped before commit
 ```
 
 Rules

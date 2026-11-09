@@ -66,6 +66,13 @@ Skills in `.claude/skills/`: `/m1-step` (next plan step), `/iterate` (one improv
 - The course's `ret_ema_N` example lags the N-min return an extra N bars, which destroys the signal. Build return EMAs from 1-min returns.
 - Known missing days: all datasets 2025-11-26..28; `level1_1min` ETH+SOL 2024-01-13..14, SOL+XRP 2025-11-24.
 
+Added from the full-archive audit (2026-11-05, details in `docs/DATA.md`):
+
+- **Join on `ts_end`, never on `bin_id`.** A level1/trade file dated D holds `ts_end` D 00:01 .. D+1 00:00; a book file holds D 00:00 .. D 23:59. Same `bin_id`, book `ts_end` is 60 s earlier. A bar's day is the file date (the HDB `date`), not `date$ts_end`.
+- `carryover >= 1` is a run counter (1, 2, 3, ...); `-1` is a constant flag with NaN prices, and whole-day `-1` outages exist (BTC, ETH, DOGE on 2025-01-27). Mask on `carryover != 0`.
+- Trade stale bars: XRP and DOGE have a NaN `close_price` (not a repeat) on most of them, and the flag can start one bar late (2024-11-30). Mask on `trade_count == 0` or NaN price as well.
+- Level1 staleness is mostly not simultaneous: 91% of stale minutes hit only some of the 5 names, clustered in 2024-25, and trade and book are live in 99% of them. Price source on those bars is decision D12.
+
 ## Environment
 
 WSL2, conda env `notset` (Python 3.12, numpy, pandas, scipy, statsmodels, scikit-learn, matplotlib, pyyaml, pykx), KDB-X Community, OpenJDK 21. See `docs/SETUP.md`. Data paths come from `config/local.yaml`, never hardcoded.

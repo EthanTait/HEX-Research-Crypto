@@ -65,3 +65,5 @@ A result that dies at step 2 or 3 is still a result: "the effect is statisticall
 | Robustness checks that must pass | Drop top 5 vol days; per-follower results; weekday vs weekend; circular time-shift placebo |
 | What counts as a null result | Lead concentrated at lag 0, or combined forecast not better than the best feature beyond 1 bootstrap s.e. |
 | Holdout period | 2025-01-01 to 2025-11-30, opened once, logged in `experiments/registry.jsonl` |
+
+**Change 2026-11-07 (logged in `DECISIONS.md`):** the judging metric is now the value of the forecast to a mock desk with a book (net PnL with the forecast minus the same desk without it, on the same observed flow, fees on every leg), with a circular time-shift placebo required to be ~0. The standalone hedged position is kept as the diagnosis of why a 1-2 bps, 5-minute edge cannot pay four taker fills. Reason: the forecast's size and speed, measured on the 2024 walk-forward, not a bad result being hidden.
